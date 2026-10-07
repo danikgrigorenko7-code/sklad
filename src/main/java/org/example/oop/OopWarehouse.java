@@ -1,10 +1,5 @@
 package org.example.oop;
 
-/**
- * Демонстрационный сценарий ООП-версии.
- * Специально повторяет сценарий StructuralWarehouse.main() —
- * чтобы результат обеих версий был идентичен.
- */
 public class OopWarehouse {
 
     public static void main(String[] args) {

@@ -5,20 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Склад — коллекция товаров.
- * Отвечает за: приход, расход, остаток, порог, общий объём.
- * Логику изменения количества делегирует самому товару (Product.increase/decrease).
- */
 public class Warehouse {
 
     private final Map<String, Product> products = new LinkedHashMap<>();
 
-    /**
-     * Приход товара.
-     * Если товара с таким артикулом нет — создаём новый Product и кладём в склад.
-     * Если есть — вызываем у него increase().
-     */
     public void receive(String sku, String name, int amount) {
         if (amount <= 0) {
             System.out.println("  [ОШИБКА] Приход должен быть положительным: " + amount);
@@ -35,10 +25,6 @@ public class Warehouse {
         }
     }
 
-    /**
-     * Расход товара.
-     * Проверка "не уходить в минус" теперь внутри Product.decrease().
-     */
     public boolean issue(String sku, int amount) {
         if (amount <= 0) {
             System.out.println("  [ОШИБКА] Расход должен быть положительным: " + amount);
@@ -59,13 +45,11 @@ public class Warehouse {
         return true;
     }
 
-    /** Остаток по артикулу. -1, если товара нет. */
     public int stockOf(String sku) {
         Product p = products.get(sku);
         return p == null ? -1 : p.getQuantity();
     }
 
-    /** Товары с остатком ниже порога. */
     public List<Product> belowThreshold(int threshold) {
         List<Product> result = new ArrayList<>();
         for (Product p : products.values()) {
@@ -76,7 +60,6 @@ public class Warehouse {
         return result;
     }
 
-    /** Общий объём единиц на складе. */
     public int totalUnits() {
         int sum = 0;
         for (Product p : products.values()) {
@@ -85,7 +68,6 @@ public class Warehouse {
         return sum;
     }
 
-    /** Итерация по товарам — нужна для вывода состояния склада в демо. */
     public Iterable<Product> allProducts() {
         return products.values();
     }

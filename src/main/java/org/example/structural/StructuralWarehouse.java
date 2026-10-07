@@ -5,25 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * СТРУКТУРНЫЙ СТИЛЬ.
- *
- * Идея: данные (Product) и логика (статические методы) разделены.
- * Product — просто носитель данных (record). Никаких методов работы с количеством внутри него.
- * Вся логика склада — в статических методах, которые принимают Map товаров и работают с ней.
- */
 public class StructuralWarehouse {
 
-    /** Товар — «структура данных»: только поля, никакой логики. */
     public record Product(String sku, String name, int quantity) {}
 
-    /**
-     * Приход товара.
-     * Если товара с таким артикулом нет — добавляем новый.
-     * Если есть — увеличиваем количество.
-     *
-     * Так как Product — immutable record, "увеличение" делаем заменой на новый Product.
-     */
     public static void receive(Map<String, Product> warehouse, String sku, String name, int amount) {
         if (amount <= 0) {
             System.out.println("  [ОШИБКА] Приход должен быть положительным: " + amount);
@@ -40,11 +25,6 @@ public class StructuralWarehouse {
         }
     }
 
-    /**
-     * Расход товара.
-     * Если товара нет или не хватает — отказ (не уходим в минус).
-     * Возвращает true, если расход успешен.
-     */
     public static boolean issue(Map<String, Product> warehouse, String sku, int amount) {
         if (amount <= 0) {
             System.out.println("  [ОШИБКА] Расход должен быть положительным: " + amount);
@@ -66,13 +46,11 @@ public class StructuralWarehouse {
         return true;
     }
 
-    /** Остаток по артикулу. Возвращает -1, если товара нет. */
     public static int stockOf(Map<String, Product> warehouse, String sku) {
         Product p = warehouse.get(sku);
         return p == null ? -1 : p.quantity();
     }
 
-    /** Товары, у которых остаток строго ниже порога. */
     public static List<Product> belowThreshold(Map<String, Product> warehouse, int threshold) {
         List<Product> result = new ArrayList<>();
         for (Product p : warehouse.values()) {
@@ -83,7 +61,6 @@ public class StructuralWarehouse {
         return result;
     }
 
-    /** Общий объём единиц на складе — сумма количеств всех товаров. */
     public static int totalUnits(Map<String, Product> warehouse) {
         int sum = 0;
         for (Product p : warehouse.values()) {
@@ -92,11 +69,7 @@ public class StructuralWarehouse {
         return sum;
     }
 
-    // ============================================================
-    // ДЕМО-СЦЕНАРИЙ
-    // ============================================================
     public static void main(String[] args) {
-        // LinkedHashMap — чтобы порядок добавления сохранялся при выводе
         Map<String, Product> warehouse = new LinkedHashMap<>();
 
         System.out.println("=== ДЕМО: Структурный стиль — Склад товаров ===\n");

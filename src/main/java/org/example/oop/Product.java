@@ -1,15 +1,5 @@
 package org.example.oop;
 
-/**
- * ООП-СТИЛЬ.
- *
- * Класс Product инкапсулирует данные одного товара и умеет:
- *  - увеличивать своё количество (приход),
- *  - уменьшать количество, но не уходить в минус (расход).
- *
- * Здесь и живёт логика "не уходить в минус" — внутри товара.
- * В структурной версии эта проверка была в функции issue().
- */
 public class Product {
 
     private final String sku;      // артикул — не меняется
@@ -36,10 +26,6 @@ public class Product {
     public String getName()     { return name; }
     public int getQuantity()    { return quantity; }
 
-    /**
-     * Приход: увеличить количество.
-     * @return true, если операция выполнена; false, если приход некорректный.
-     */
     public boolean increase(int amount) {
         if (amount <= 0) {
             return false;
@@ -48,10 +34,6 @@ public class Product {
         return true;
     }
 
-    /**
-     * Расход: уменьшить количество, но не уходить в минус.
-     * @return true, если удалось списать; false, если не хватает или запрос некорректен.
-     */
     public boolean decrease(int amount) {
         if (amount <= 0) {
             return false;
